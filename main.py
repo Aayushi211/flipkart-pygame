@@ -11,18 +11,18 @@ sock = None
 def connect_sock():
     global sock
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.settimeout(5)
 
     print("Trying to connect to bot")
     socket_not_connected = True
     while socket_not_connected:
         try:
             sock.connect((host, port))
+            sock.setblocking(0)
+
         except Exception as e:
             pass
 
         socket_not_connected = False
-    sock.setblocking(0)
 
 connect_sock()
 print('You are connected to:', host)
@@ -42,6 +42,7 @@ while True:
     if not connection_active:
         connect_sock()
         print("Connected")
+        connection_active = True
 
 
     for event in pygame.event.get():
@@ -100,6 +101,7 @@ while True:
                     main = False
 
         except Exception as e:
+            print(e)
             connection_active = False
 
 if sock is False:
