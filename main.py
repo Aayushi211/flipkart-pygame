@@ -4,8 +4,9 @@ import socket
 
 print("connecting..")
 host = '192.168.137.97'
-port = 6000
+port = 7000
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+socket.settimeout(5)
 sock.connect((host, port))
 print('You are connected to:', host)
 
