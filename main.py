@@ -3,12 +3,19 @@ import pygame
 import socket
 
 print("connecting..")
-host = '192.168.137.97'
-port = 7000
+host1 = '192.168.137.97'
+port1 = 6000
+host2 = '192.168.137.97'
+port2 = 6000
+host3 = '192.168.137.97'
+port3 = 6000
+host4 = '192.168.137.97'
+port4 = 6000
 
 sock = None
+bot = 1
 
-def connect_sock():
+def connect_sock(host, port):
     global sock
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -24,8 +31,8 @@ def connect_sock():
 
         socket_not_connected = False
 
-connect_sock()
-print('You are connected to:', host)
+#connect_sock(host1, port1)
+#print('You are connected to:', host)
 
 # importing sys module
 import sys
@@ -39,8 +46,28 @@ display = pygame.display.set_mode((300, 300))
 connection_active = True
 # creating a running loop
 while True:
+    if bot == 1:
+        connect_sock(host1, port1)
+        print('You are connected to:', host1)
+    if bot == 2:
+        connect_sock(host2, port2)
+        print('You are connected to:', host2)
+    if bot == 3:
+        connect_sock(host3, port3)
+        print('You are connected to:', host3)
+    if bot == 4:
+        connect_sock(host4, port4)
+        print('You are connected to:', host4)
+
     if not connection_active:
-        connect_sock()
+        if bot == 1:
+            connect_sock(host1, port1)
+        if bot == 2:
+            connect_sock(host2, port2)
+        if bot == 3:
+            connect_sock(host3, port3)
+        if bot == 4:
+            connect_sock(host4, port4)
         print("Connected")
         connection_active = True
 
@@ -73,6 +100,10 @@ while True:
         #print("F", F)
                     sock.send(F)
                     print('backward')
+                if event.key == pygame.K_DOWN or event.key == ord('x'):
+                    #F = str("s").encode("utf-8")
+                    sock.close()
+                    bot = bot + 1
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
