@@ -1,6 +1,7 @@
 import cv2
 import socket
 import sys
+import math
 
 port = 6000
 ip = [("192.168.1.1"), ("192.168.1.2"), ("192.168.1.3"), ("192.168.1.4")]
@@ -124,6 +125,39 @@ while cap.isOpened():
     cv2.line(frame, right_point[k], start_point[k], (255,0,0), 2)
     cv2.line(frame, right_point[k], end_point[k], (255,0,0), 2)
     #cv2.putText(frame, time_taken, (100,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50),2);
+
+    straight_dist = math.dist(centroid, right_point[k])
+    F = str("1").encode("utf-8")
+    sock.send(F)
+    print("straight distance", straight_dist)
+    right_dist = math.dist(centroid, end_point[k])
+    print("right distance", right_dist)
+    start_dist = math.dist(centroid, start_point[k])
+    print("start distance", start_dist)
+    if straight_dist < 30:
+        R = str("2").encode("utf-8")
+        sock.send(R)
+        time.sleep(5)
+        F = str("1").encode("utf-8")
+        sock.send(F)
+    if right_dist < 30:
+        S = ("5").encode("utf-8")
+        sock.send(S)
+        time.sleep(0.5)
+        Fl = str("6").encode("utf-8")
+        sock.send(Fl)
+        time.sleep(5)
+        B = str("4").encode("utf-8")
+        if straight_dist < 30:
+            R = str("2").encode("utf-8")
+            sock.send(R)
+            time.sleep(5)
+            F = str("1").encode("utf-8")
+            sock.send(F)
+            if start_dist < 30:
+                S = ("5").encode("utf-8")
+                sock.send(S)
+                k = k+1
     ctr += 1
     print("ctr", ctr)
     if ctr==8:
